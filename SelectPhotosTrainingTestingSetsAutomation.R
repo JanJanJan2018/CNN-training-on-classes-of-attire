@@ -69,6 +69,17 @@ colnames(trainn) <-'train'
 testn <- t(testingFiles); row.names(testn) <- NULL
 colnames(testn) <- 'test'
 
+testResizedFiles <- sort(list.files('./testResized'))
+trainResizedFiles <- sort(list.files('./trainResized'))
+trainSortedFiles <- sort(trainn)
+testSortedFiles <- sort(testn)
+
+test1 <- testResizedFiles==testSortedFiles #files in testing table same as test folder
+test2 <- trainResizedFiles==trainSortedFiles#files in training table same as train folder
+
+write.csv(trainResizedFiles,'trainResizedFiles.csv', row.names=FALSE)
+write.csv(testResizedFiles,'testResizedFiles.csv', row.names=FALSE)
+
 ifelse(!file.exists('test'), dir.create('test'), test <- './test')
 ifelse(!file.exists('train'), dir.create('train'), train <- './train')
 
