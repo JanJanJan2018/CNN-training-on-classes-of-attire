@@ -165,23 +165,41 @@ colnames(testPathTo) <- 'testPathTo'
 # and end in an exclamation ie. ``28x28!``
 
 # for the 'y' part of the function the new file name to save as is needed
+
+path1 <- 'C:/Users/m/Desktop/ML in R and Python/PhotosAnalysis/trainResized/'
 g <- as.character(trainPhotos$train)#273
-gg <- gsub('Janis Corona©KaoriSuzuki.jpg',"Resized.jpg", g)
-newTrainName <- as.data.frame(gg)
+gg <- as.vector(gsub('Janis Corona©KaoriSuzuki.jpg',"Resized.jpg", g))
+gh <- paste(path1,gg,sep='')
+
+newTrainName <- as.data.frame(gh)
 colnames(newTrainName) <- 'newTrainName'
 
+path2 <- 'C:/Users/m/Desktop/ML in R and Python/PhotosAnalysis/testResized/'
 h <- as.character(testPhotos$test)#117
-hh <- gsub('Janis Corona©KaoriSuzuki.jpg',"Resized.jpg", h)
-newTestName <- as.data.frame(hh)
-colnames(newTestName) <- 'newTestName'
+hh <- as.vector(gsub('Janis Corona©KaoriSuzuki.jpg',"Resized.jpg", h))
+hi <- paste(path2, hh, sep='')
 
-# imageResizeR(yourDataset$link.to.your.images, yourDataset$your.image.destination, 
-#              "Your Working Directory", 
-#              "dimensionxdimension!")
+newTestName <- as.data.frame(hi)
+colnames(newTestName) <- 'newTestName'
 
 trainResizeDF <- cbind(trainPath,newTrainName,trainPhotos)#273X4
 testResizeDF <- cbind(testPath, newTestName, testPhotos)#117X4
 
+
+jkTrain <- as.vector(trainResizeDF$trainPath)
+jkTrain2 <- as.vector(trainResizeDF$train)
+trainPath <- paste(jkTrain, jkTrain2, sep='/')
+
+jkTest <- as.vector(testResizeDF$testPath)
+jkTest2 <- as.vector(testResizeDF$test)
+testPath <- paste(jkTest, jkTest2, sep='/')
+
+trainResizeDF <- cbind(trainPath,newTrainName,trainPhotos[,2])#273X3
+colnames(trainResizeDF)[3] <- 'type'
+testResizeDF <- cbind(testPath, newTestName, testPhotos[,2])#117X3
+colnames(testResizeDF)[3] <- 'type'
+
+#make sure in parent folder PhotosAnalysis for this one
 write.csv(trainResizeDF,'trainingMeta.csv', row.names=FALSE)
 write.csv(testResizeDF, 'testingMeta.csv', row.names=FALSE)
 
@@ -195,11 +213,12 @@ write.csv(testResizeDF, 'testingMeta.csv', row.names=FALSE)
 # imageResizeR(as.character(trainResizeDF$trainPath[121:180]), as.character(trainResizeDF$newTrainName),
 #              './trainResized', "28x42!")
 
+
 # modify the function for file.copy from to 
-imageResizeR <- function(x, y, z, a){
+ImageResizeR <- function(x, y, z, a){
   require(magick)
   for(i in seq_along(x)){
-    file.copy(x[i], y[i])
+    file.copy(x[i], y)
   }
   listOfFiles <- list.files(path = z,
                             full.names = TRUE)
@@ -210,4 +229,14 @@ imageResizeR <- function(x, y, z, a){
                 paste(listOfFiles[i]))
   }
 }
+
+# z is './trainResized' or './testResized'
+# a is "28X42!"
+trainPath <- './trainResized'
+ImageResizeR(trainResizeDF$trainPath, trainPath, './trainResized',
+             '28x42!')
+
+testPath <- './testResized'
+ImageResizeR(testResizeDF$testPath, testPath, './testResized',
+             '28x42!')
 
