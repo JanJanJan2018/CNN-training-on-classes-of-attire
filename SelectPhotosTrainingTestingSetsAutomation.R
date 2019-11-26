@@ -251,3 +251,21 @@ testPath <- './testResized'
 ImageResizeR(testResizeDF$testPath, testPath, './testResized',
              '28x42!')
 
+#alter the trainingMeta table saved to csv earlier
+
+trainingMeta <- read.csv('trainingMeta.csv', header=TRUE, sep=',')
+trainingMeta$trainPath <- gsub('C:/Users/m/Desktop/ML in R and Python/PhotosAnalysis/train/proPhotos/',
+                               '', trainingMeta$trainPath)
+trainingMeta <- trainingMeta[,-2]
+colnames(trainingMeta)[1] <- 'imageID'
+
+write.csv(trainingMeta, 'trainingPython.csv', row.names=FALSE)
+
+testingMeta <- read.csv('testingMeta.csv', header=TRUE, sep=',')
+testingMeta$testPath <- gsub('C:/Users/m/Desktop/ML in R and Python/PhotosAnalysis/test/proPhotos/',
+                               '', testingMeta$testPath)
+testingMeta <- testingMeta[,-2]
+colnames(testingMeta)[1] <- 'imageID'
+
+write.csv(testingMeta, 'testingPython.csv', row.names=FALSE)
+
