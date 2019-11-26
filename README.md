@@ -1,7 +1,7 @@
 # CNN-training-on-3-classes-of-attire
 uses the photos in the trainCNN and testCNN repositories of this account FOR ORIGINALS
-AND FOR THE resized images of 28x42 pixels use the testCNN_resized and the trainCNN_resized
-An R script to access the resized to use 
+AND FOR THE resized images of 28x28 pixels or 224X224 pixels use the testCNN_resized28 and the trainCNN_resized28
+and the testCNN_resized224 and the trainCNN_resized224.There is an R script to access the resizing commands with magick R package 
 
 
 for(i in seq_along(x)){
