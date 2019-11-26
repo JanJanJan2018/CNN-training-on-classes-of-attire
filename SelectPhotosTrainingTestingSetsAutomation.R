@@ -69,6 +69,7 @@ colnames(trainn) <-'train'
 testn <- t(testingFiles); row.names(testn) <- NULL
 colnames(testn) <- 'test'
 
+#check files are the same in the resized folders and the data tables of files for each folder
 testResizedFiles <- sort(list.files('./testResized'))
 trainResizedFiles <- sort(list.files('./trainResized'))
 trainSortedFiles <- sort(trainn)
@@ -153,7 +154,7 @@ ifelse(!file.exists('trainResized'), dir.create('trainResized'), trainResized <-
 trList <- 'C:/Users/m/Desktop/ML in R and Python/PhotosAnalysis/train/proPhotos'
 teList <- 'C:/Users/m/Desktop/ML in R and Python/PhotosAnalysis/test/proPhotos'
 
-#the files of images have to be downloaded from a 'url' not file path
+#the files of original images have to be downloaded from a 'url' not file path
 
 # trList <- 'https://github.com/JanJanJan2018/trainCNN'
 # teList <- 'https://github.com/JanJanJan2018/testCNN'
@@ -241,16 +242,33 @@ ImageResizeR <- function(x, y, z, a){
   }
 }
 
-# z is './trainResized' or './testResized'
-# a is "28X42!"
+#################################################################################
+# Resized images to 224X224:
+
 trainPath <- './trainResized'
 ImageResizeR(trainResizeDF$trainPath, trainPath, './trainResized',
-             '28x42!')
+             '224x224!')
 
 testPath <- './testResized'
 ImageResizeR(testResizeDF$testPath, testPath, './testResized',
-             '28x42!')
+             '224x224!')
+#################################################################################
+# Resized images to 28X28 pixels:
 
+ifelse(!file.exists('testResized28'), dir.create('testResized28'),
+       testResized <- './testResized28')
+ifelse(!file.exists('trainResized28'), dir.create('trainResized28'),
+       trainResized <- './trainResized28')
+
+trainPath <- './trainResized28'
+ImageResizeR(trainResizeDF$trainPath, trainPath, './trainResized28',
+             '28x28!')
+
+testPath <- './testResized28'
+ImageResizeR(testResizeDF$testPath, testPath, './testResized28',
+             '28x28!')
+
+##################################################################################
 #alter the trainingMeta table saved to csv earlier
 
 trainingMeta <- read.csv('trainingMeta.csv', header=TRUE, sep=',')
